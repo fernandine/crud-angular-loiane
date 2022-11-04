@@ -29,7 +29,7 @@ public class CourseService {
         Course course = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new CourseDto(course);
     }
-    @Transactional(readOnly = true)
+    @Transactional
     public CourseDto insert(@NotNull CourseDto dto) {
         Course entity = new Course();
         entity.setId(dto.getId());
@@ -37,6 +37,21 @@ public class CourseService {
         entity.setCategory(dto.getCategory());
         entity = courseRepository.save(entity);
         return new CourseDto(entity);
+    }
+
+    @Transactional
+    public CourseDto update(String id, CourseDto dto) {
+        Course entity = new Course();
+        entity.setId(dto.getId());
+        entity.setName(dto.getName());
+        entity.setCategory(dto.getCategory());
+        entity = courseRepository.save(entity);
+        return new CourseDto(entity);
+    }
+
+
+    public void delete(String id) {
+        courseRepository.deleteById(id);
     }
 }
 
